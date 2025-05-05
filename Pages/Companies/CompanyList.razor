@@ -62,8 +62,8 @@ else
 @if (showDeleteConfirm)
 {
     <div class="modal-backdrop show"></div>
-    <div class="modal show d-block" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
+    <div class="modal show d-block">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Confirmar eliminación</h5>
@@ -76,8 +76,8 @@ else
                     <p class="text-danger">Esta acción no se puede deshacer y eliminará todos los productos asociados.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
-                    <button type="button" class="btn btn-danger" @onclick="DeleteCompany">Eliminar</button>
+                    <button class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
+                    <button class="btn btn-danger" @onclick="DeleteCompany">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -112,25 +112,10 @@ else
         }
     }
 
-    private void NavigateToCreate()
-    {
-        NavigationManager.NavigateTo("/companies/create");
-    }
-
-    private void NavigateToDetails(int id)
-    {
-        NavigationManager.NavigateTo($"/companies/details/{id}");
-    }
-
-    private void NavigateToEdit(int id)
-    {
-        NavigationManager.NavigateTo($"/companies/edit/{id}");
-    }
-
-    private void NavigateToProducts(int id)
-    {
-        NavigationManager.NavigateTo($"/companies/{id}/products");
-    }
+    private void NavigateToCreate() => NavigationManager.NavigateTo("/companies/create");
+    private void NavigateToDetails(int id) => NavigationManager.NavigateTo($"/companies/details/{id}");
+    private void NavigateToEdit(int id) => NavigationManager.NavigateTo($"/companies/edit/{id}");
+    private void NavigateToProducts(int id) => NavigationManager.NavigateTo($"/companies/{id}/products");
 
     private void ConfirmDelete(Company company)
     {
@@ -150,13 +135,16 @@ else
         {
             await CompanyService.DeleteCompanyAsync(companyToDelete.Id);
             NotificationService.ShowNotification("Éxito", $"Compañía '{companyToDelete.Name}' eliminada correctamente", NotificationType.Success);
-            showDeleteConfirm = false;
-            companyToDelete = null;
             await LoadCompanies();
         }
         catch (Exception ex)
         {
             NotificationService.ShowNotification("Error", $"No se pudo eliminar la compañía: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            showDeleteConfirm = false;
+            companyToDelete = null;
         }
     }
 }

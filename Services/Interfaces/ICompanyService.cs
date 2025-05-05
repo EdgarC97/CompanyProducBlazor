@@ -1,4 +1,5 @@
 ﻿using CompanyProductBlazor.Models;
+using CompanyProductBlazor.Models.DTOs;
 
 namespace CompanyProductBlazor.Services.Interfaces
 {
@@ -6,8 +7,8 @@ namespace CompanyProductBlazor.Services.Interfaces
     {
         Task<IEnumerable<Company>> GetAllCompaniesAsync();
         Task<Company> GetCompanyByIdAsync(int id);
-        Task<Company> CreateCompanyAsync(Company company);
-        Task<Company> UpdateCompanyAsync(int id, Company company);
+        Task<Company> CreateCompanyAsync(CompanyCreateDto company);
+        Task UpdateCompanyAsync(int id, Company company);
         Task DeleteCompanyAsync(int id);
     }
 }

@@ -1,0 +1,93 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\obj\\Debug\\net8.0\\compressed\\essd97l760.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\appsettings.json",
+      "PackagePath": "staticwebassets\\appsettings.json"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\base.css",
+      "PackagePath": "staticwebassets\\css\\base.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\components\\buttons.css",
+      "PackagePath": "staticwebassets\\css\\components\\buttons.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\components\\forms.css",
+      "PackagePath": "staticwebassets\\css\\components\\forms.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\components\\modals.css",
+      "PackagePath": "staticwebassets\\css\\components\\modals.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\components\\spinners.css",
+      "PackagePath": "staticwebassets\\css\\components\\spinners.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\components\\tables.css",
+      "PackagePath": "staticwebassets\\css\\components\\tables.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\pages\\companies.css",
+      "PackagePath": "staticwebassets\\css\\pages\\companies.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\css\\pages\\products.css",
+      "PackagePath": "staticwebassets\\css\\pages\\products.css"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\Proyectos programacion\\C#\\CompanyProductBlazor\\CompanyProductBlazor\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CompanyProductBlazor.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CompanyProductBlazor.props",
+      "PackagePath": "build\\CompanyProductBlazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CompanyProductBlazor.props",
+      "PackagePath": "buildMultiTargeting\\CompanyProductBlazor.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CompanyProductBlazor.props",
+      "PackagePath": "buildTransitive\\CompanyProductBlazor.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

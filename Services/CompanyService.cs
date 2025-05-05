@@ -1,6 +1,7 @@
-﻿using CompanyProductBlazor.Helpers;
-using CompanyProductBlazor.Models;
+﻿using CompanyProductBlazor.Models;
+using CompanyProductBlazor.Models.DTOs;
 using CompanyProductBlazor.Services.Interfaces;
+using System.Net.Http.Json;
 
 namespace CompanyProductBlazor.Services
 {
@@ -24,19 +25,23 @@ namespace CompanyProductBlazor.Services
             return await _httpClient.GetFromJsonAsync<Company>($"{ApiEndpoint}/{id}");
         }
 
-        public async Task<Company> CreateCompanyAsync(Company company)
+        public async Task<Company> CreateCompanyAsync(CompanyCreateDto company)
         {
-            return await _httpClient.PostAsJsonAsync<Company>(ApiEndpoint, company);
+            var response = await _httpClient.PostAsJsonAsync(ApiEndpoint, company);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<Company>();
         }
 
-        public async Task<Company> UpdateCompanyAsync(int id, Company company)
+        public async Task UpdateCompanyAsync(int id, Company company)
         {
-            return await _httpClient.PutAsJsonAsync<Company>($"{ApiEndpoint}/{id}", company);
+            var response = await _httpClient.PutAsJsonAsync($"{ApiEndpoint}/{id}", company);
+            response.EnsureSuccessStatusCode(); 
         }
 
         public async Task DeleteCompanyAsync(int id)
         {
-            await _httpClient.DeleteAsync($"{ApiEndpoint}/{id}");
+            var response = await _httpClient.DeleteAsync($"{ApiEndpoint}/{id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }

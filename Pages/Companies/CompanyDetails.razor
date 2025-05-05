@@ -4,22 +4,14 @@
 @inject ICompanyService CompanyService
 @inject INotificationService NotificationService
 @inject NavigationManager NavigationManager
-
 <h1>Detalles de Compañía</h1>
-
 @if (loading)
 {
-    <div class="spinner-container">
-        <div class="spinner"></div>
-        <p>Cargando datos de la compañía...</p>
-    </div>
+    <p>Cargando datos...</p>
 }
 else if (company == null)
 {
-    <div class="alert alert-danger">
-        No se encontró la compañía con ID @Id
-    </div>
-    <button class="btn btn-primary" @onclick="NavigateToList">Volver a la lista</button>
+    <p class="text-danger">No se encontró la compañía.</p>
 }
 else
 {
@@ -28,52 +20,38 @@ else
             <h3>@company.Name</h3>
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <dl class="row">
-                        <dt class="col-sm-4 company-detail-label">ID:</dt>
-                        <dd class="col-sm-8 company-detail-value">@company.Id</dd>
-
-                        <dt class="col-sm-4 company-detail-label">Nombre:</dt>
-                        <dd class="col-sm-8 company-detail-value">@company.Name</dd>
-
-                        <dt class="col-sm-4 company-detail-label">Dirección:</dt>
-                        <dd class="col-sm-8 company-detail-value">@company.Address</dd>
-                    </dl>
-                </div>
-            </div>
+            <dl class="row">
+                <dt class="col-sm-4">Dirección</dt>
+                <dd class="col-sm-8">@company.Address</dd>
+                <dt class="col-sm-4">Teléfono</dt>
+                <dd class="col-sm-8">@company.Phone</dd>
+                <dt class="col-sm-4">Email</dt>
+                <dd class="col-sm-8">@company.Email</dd>
+                <dt class="col-sm-4">Web</dt>
+                <dd class="col-sm-8">@company.WebSite</dd>
+            </dl>
         </div>
         <div class="card-footer">
-            <button class="btn btn-primary" @onclick="() => NavigateToEdit(company.Id)">Editar</button>
-            <button class="btn btn-secondary" @onclick="NavigateToList">Volver a la lista</button>
-            <button class="btn btn-info" @onclick="() => NavigateToProducts(company.Id)">Ver Productos</button>
+            <button class="btn btn-primary" @onclick="EditCompany">Editar</button>
+            <button class="btn btn-secondary" @onclick="GoBackToList">Volver</button>
+            <button class="btn btn-info" @onclick="ViewProducts">Ver Productos</button>
         </div>
     </div>
 }
-
 @code {
-    [Parameter]
-    public int Id { get; set; }
-
+    [Parameter] public int Id { get; set; }
     private Company company;
     private bool loading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadCompany();
-    }
-
-    private async Task LoadCompany()
-    {
         try
         {
-            loading = true;
             company = await CompanyService.GetCompanyByIdAsync(Id);
         }
         catch (Exception ex)
         {
-            NotificationService.ShowNotification("Error", $"No se pudo cargar la compañía: {ex.Message}", NotificationType.Error);
-            company = null;
+            NotificationService.ShowNotification("Error", ex.Message, NotificationType.Error);
         }
         finally
         {
@@ -81,18 +59,18 @@ else
         }
     }
 
-    private void NavigateToList()
+    private void EditCompany()
+    {
+        NavigationManager.NavigateTo($"/companies/edit/{company.Id}");
+    }
+
+    private void GoBackToList()
     {
         NavigationManager.NavigateTo("/companies");
     }
 
-    private void NavigateToEdit(int id)
+    private void ViewProducts()
     {
-        NavigationManager.NavigateTo($"/companies/edit/{id}");
-    }
-
-    private void NavigateToProducts(int id)
-    {
-        NavigationManager.NavigateTo($"/companies/{id}/products");
+        NavigationManager.NavigateTo($"/companies/{company.Id}/products");
     }
 }

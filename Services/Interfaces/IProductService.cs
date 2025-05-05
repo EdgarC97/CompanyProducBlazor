@@ -1,4 +1,5 @@
 ﻿using CompanyProductBlazor.Models;
+using CompanyProductBlazor.Models.DTOs;
 
 namespace CompanyProductBlazor.Services.Interfaces
 {
@@ -7,8 +8,8 @@ namespace CompanyProductBlazor.Services.Interfaces
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<IEnumerable<Product>> GetProductsByCompanyIdAsync(int companyId);
         Task<Product> GetProductByIdAsync(int id);
-        Task<Product> CreateProductAsync(Product product);
-        Task<Product> UpdateProductAsync(int id, Product product);
+        Task CreateProductAsync(ProductCreateDto product);
+        Task UpdateProductAsync(int id, Product product);
         Task DeleteProductAsync(int id);
     }
 }
