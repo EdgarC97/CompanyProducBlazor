@@ -1,0 +1,117 @@
+﻿@page "/companies/edit/{Id:int}"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<h1>Editar Compañía</h1>
+
+@if (loading)
+{
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Cargando datos de la compañía...</p>
+    </div>
+}
+else if (company == null)
+{
+    <div class="alert alert-danger">
+        No se encontró la compañía con ID @Id
+    </div>
+    <button class="btn btn-primary" @onclick="NavigateToList">Volver a la lista</button>
+}
+else
+{
+    <div class="card company-form">
+        <div class="card-body">
+            <EditForm Model="@company" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <InputText id="name" @bind-Value="company.Name" class="form-control" />
+                    <ValidationMessage For="@(() => company.Name)" />
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Dirección:</label>
+                    <InputText id="address" @bind-Value="company.Address" class="form-control" />
+                    <ValidationMessage For="@(() => company.Address)" />
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary" disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span>Guardando...</span>
+                        }
+                        else
+                        {
+                            <span>Guardar</span>
+                        }
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="NavigateToList">Cancelar</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Company company;
+    private bool loading = true;
+    private bool isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCompany();
+    }
+
+    private async Task LoadCompany()
+    {
+        try
+        {
+            loading = true;
+            company = await CompanyService.GetCompanyByIdAsync(Id);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo cargar la compañía: {ex.Message}", NotificationType.Error);
+            company = null;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            isSaving = true;
+            await CompanyService.UpdateCompanyAsync(Id, company);
+            NotificationService.ShowNotification("Éxito", "Compañía actualizada correctamente", NotificationType.Success);
+            NavigateToList();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo actualizar la compañía: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private void NavigateToList()
+    {
+        NavigationManager.NavigateTo("/companies");
+    }
+}
