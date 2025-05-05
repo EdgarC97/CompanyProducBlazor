@@ -16,6 +16,6 @@ namespace CompanyProductBlazor.Models
         [StringLength(200, ErrorMessage = "La dirección no puede exceder los 200 caracteres")]
         public string Address { get; set; }
 
-        public List<Product> Products { get; set; } = new List<Product>();
+        public ICollection<Product>? Products { get; set; }
     }
 }

@@ -1,0 +1,38 @@
+﻿/* Estilos específicos para páginas de compañías */
+.company-list-header {
+    margin-bottom: 2rem;
+}
+
+.company-details-container {
+    margin-top: 1rem;
+}
+
+.company-form {
+    max-width: 800px;
+}
+
+.company-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Estilos específicos para la página de detalles de compañía */
+.company-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.company-detail-section {
+    margin-bottom: 2rem;
+}
+
+.company-detail-label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.company-detail-value {
+    flex: 1;
+}

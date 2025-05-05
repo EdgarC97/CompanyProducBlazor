@@ -1,0 +1,62 @@
+﻿@page "/"
+
+<PageTitle>Gestión de Compañías y Productos</PageTitle>
+
+<div class="container mt-4">
+    <div class="jumbotron">
+        <h1 class="display-4">Sistema de Gestión de Compañías y Productos</h1>
+        <p class="lead">
+            Bienvenido al sistema de gestión empresarial. Esta aplicación le permite administrar 
+            compañías y sus productos de manera eficiente.
+        </p>
+        <hr class="my-4">
+        <p>
+            Utilice el menú de navegación para acceder a las diferentes secciones del sistema.
+        </p>
+        <div class="mt-4">
+            <a class="btn btn-primary btn-lg" href="/companies" role="button">
+                Gestionar Compañías
+            </a>
+            <a class="btn btn-secondary btn-lg ml-2" href="/products" role="button">
+                Gestionar Productos
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Gestión de Compañías</h5>
+                </div>
+                <div class="card-body">
+                    <p>Administre la información de sus compañías:</p>
+                    <ul>
+                        <li>Crear nuevas compañías</li>
+                        <li>Ver detalles de compañías existentes</li>
+                        <li>Actualizar información de compañías</li>
+                        <li>Eliminar compañías</li>
+                    </ul>
+                    <a href="/companies" class="btn btn-outline-primary">Ir a Compañías</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Gestión de Productos</h5>
+                </div>
+                <div class="card-body">
+                    <p>Administre los productos de sus compañías:</p>
+                    <ul>
+                        <li>Crear nuevos productos</li>
+                        <li>Ver detalles de productos existentes</li>
+                        <li>Actualizar información de productos</li>
+                        <li>Eliminar productos</li>
+                    </ul>
+                    <a href="/products" class="btn btn-outline-secondary">Ir a Productos</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿/* Estilos específicos para páginas de productos */
+.product-list-header {
+    margin-bottom: 2rem;
+}
+
+.product-details-container {
+    margin-top: 1rem;
+}
+
+.product-form {
+    max-width: 800px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Estilos específicos para la página de detalles de producto */
+.product-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.product-detail-section {
+    margin-bottom: 2rem;
+}
+
+.product-detail-label {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.product-detail-value {
+    flex: 1;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #28a745;
+}

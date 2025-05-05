@@ -1,0 +1,6 @@
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.csproj.AssemblyReference.cache
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.GeneratedMSBuildEditorConfig.editorconfig
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.AssemblyInfoInputs.cache
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.AssemblyInfo.cs
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.csproj.CoreCompileInputs.cache
+D:\Proyectos programacion\C#\CompanyProductBlazor\CompanyProductBlazor\obj\Debug\net8.0\CompanyProductBlazor.MvcApplicationPartsAssemblyInfo.cache

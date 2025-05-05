@@ -1,0 +1,75 @@
+﻿@page "/companies/create"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<div class="company-detail-header">
+    <h1>Crear Nueva Compañía</h1>
+</div>
+
+<div class="card company-form">
+    <div class="card-body">
+        <EditForm Model="@company" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <InputText id="name" @bind-Value="company.Name" class="form-control" />
+                <ValidationMessage For="@(() => company.Name)" />
+            </div>
+
+            <div class="form-group">
+                <label for="address">Dirección:</label>
+                <InputText id="address" @bind-Value="company.Address" class="form-control" />
+                <ValidationMessage For="@(() => company.Address)" />
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary" disabled="@isSaving">
+                    @if (isSaving)
+                    {
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span>Guardando...</span>
+                    }
+                    else
+                    {
+                        <span>Guardar</span>
+                    }
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="NavigateToList">Cancelar</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private Company company = new Company();
+    private bool isSaving = false;
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            isSaving = true;
+            var createdCompany = await CompanyService.CreateCompanyAsync(company);
+            NotificationService.ShowNotification("Éxito", "Compañía creada correctamente", NotificationType.Success);
+            NavigateToList();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo crear la compañía: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private void NavigateToList()
+    {
+        NavigationManager.NavigateTo("/companies");
+    }
+}

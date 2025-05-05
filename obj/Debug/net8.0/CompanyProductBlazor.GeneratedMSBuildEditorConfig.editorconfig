@@ -30,6 +30,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xOb3RpZmljYXRpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Companies/CompanyCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFuaWVzXENvbXBhbnlDcmVhdGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Companies/CompanyDetails.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFuaWVzXENvbXBhbnlEZXRhaWxzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -40,6 +44,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Companies/CompanyList.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFuaWVzXENvbXBhbnlMaXN0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Products/ProductCreate.razor]
@@ -60,6 +68,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Shared/NotificationComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5vdGlmaWNhdGlvbkNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/_Imports.razor]

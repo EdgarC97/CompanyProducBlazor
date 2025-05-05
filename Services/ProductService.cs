@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
+﻿using CompanyProductBlazor.Helpers;
 using CompanyProductBlazor.Models;
 using CompanyProductBlazor.Services.Interfaces;
 
@@ -9,55 +7,41 @@ namespace CompanyProductBlazor.Services
     public class ProductService : IProductService
     {
         private readonly HttpClient _httpClient;
-        private readonly JsonSerializerOptions _options;
+        private const string ApiEndpoint = "products";
 
         public ProductService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            var response = await _httpClient.GetAsync("api/products");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<IEnumerable<Product>>(_options);
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>(ApiEndpoint);
         }
 
         public async Task<IEnumerable<Product>> GetProductsByCompanyIdAsync(int companyId)
         {
-            var response = await _httpClient.GetAsync($"api/companies/{companyId}/products");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<IEnumerable<Product>>(_options);
+            return await _httpClient.GetFromJsonAsync<IEnumerable<Product>>($"companies/{companyId}/products");
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            var response = await _httpClient.GetAsync($"api/products/{id}");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Product>(_options);
+            return await _httpClient.GetFromJsonAsync<Product>($"{ApiEndpoint}/{id}");
         }
 
         public async Task<Product> CreateProductAsync(Product product)
         {
-            var content = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/products", content);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Product>(_options);
+            return await _httpClient.PostAsJsonAsync<Product>(ApiEndpoint, product);
         }
 
         public async Task<Product> UpdateProductAsync(int id, Product product)
         {
-            var content = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"api/products/{id}", content);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Product>(_options);
+            return await _httpClient.PutAsJsonAsync<Product>($"{ApiEndpoint}/{id}", product);
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/products/{id}");
-            response.EnsureSuccessStatusCode();
+            await _httpClient.DeleteAsync($"{ApiEndpoint}/{id}");
         }
     }
 }
