@@ -1,0 +1,161 @@
+﻿@page "/companies"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<h1>Compañías</h1>
+
+<div class="actions-container">
+    <button class="btn btn-primary" @onclick="NavigateToCreate">Nueva Compañía</button>
+</div>
+
+@if (loading)
+{
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Cargando compañías...</p>
+    </div>
+}
+else if (companies == null || !companies.Any())
+{
+    <div class="empty-state">
+        <p>No hay compañías registradas.</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var company in companies)
+                {
+                    <tr>
+                        <td>@company.Id</td>
+                        <td>@company.Name</td>
+                        <td>@company.Address</td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-info" @onclick="() => NavigateToDetails(company.Id)">Detalles</button>
+                                <button class="btn btn-warning" @onclick="() => NavigateToEdit(company.Id)">Editar</button>
+                                <button class="btn btn-danger" @onclick="() => ConfirmDelete(company)">Eliminar</button>
+                                <button class="btn btn-secondary" @onclick="() => NavigateToProducts(company.Id)">Productos</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (showDeleteConfirm)
+{
+    <div class="modal-backdrop show"></div>
+    <div class="modal show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="close" @onclick="CancelDelete">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar la compañía "@companyToDelete?.Name"?</p>
+                    <p class="text-danger">Esta acción no se puede deshacer y eliminará todos los productos asociados.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="DeleteCompany">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private IEnumerable<Company> companies;
+    private bool loading = true;
+    private bool showDeleteConfirm = false;
+    private Company companyToDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCompanies();
+    }
+
+    private async Task LoadCompanies()
+    {
+        try
+        {
+            loading = true;
+            companies = await CompanyService.GetAllCompaniesAsync();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudieron cargar las compañías: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void NavigateToCreate()
+    {
+        NavigationManager.NavigateTo("/companies/create");
+    }
+
+    private void NavigateToDetails(int id)
+    {
+        NavigationManager.NavigateTo($"/companies/details/{id}");
+    }
+
+    private void NavigateToEdit(int id)
+    {
+        NavigationManager.NavigateTo($"/companies/edit/{id}");
+    }
+
+    private void NavigateToProducts(int id)
+    {
+        NavigationManager.NavigateTo($"/companies/{id}/products");
+    }
+
+    private void ConfirmDelete(Company company)
+    {
+        companyToDelete = company;
+        showDeleteConfirm = true;
+    }
+
+    private void CancelDelete()
+    {
+        companyToDelete = null;
+        showDeleteConfirm = false;
+    }
+
+    private async Task DeleteCompany()
+    {
+        try
+        {
+            await CompanyService.DeleteCompanyAsync(companyToDelete.Id);
+            NotificationService.ShowNotification("Éxito", $"Compañía '{companyToDelete.Name}' eliminada correctamente", NotificationType.Success);
+            showDeleteConfirm = false;
+            companyToDelete = null;
+            await LoadCompanies();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo eliminar la compañía: {ex.Message}", NotificationType.Error);
+        }
+    }
+}
