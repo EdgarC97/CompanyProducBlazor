@@ -1,0 +1,130 @@
+﻿@page "/products/details/{Id:int}"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject IProductService ProductService
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<h1>Detalles de Producto</h1>
+
+@if (loading)
+{
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Cargando datos del producto...</p>
+    </div>
+}
+else if (product == null)
+{
+    <div class="alert alert-danger">
+        No se encontró el producto con ID @Id
+    </div>
+    <button class="btn btn-primary" @onclick="NavigateToList">Volver a la lista</button>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>@product.Name</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 product-detail-label">ID:</dt>
+                        <dd class="col-sm-8 product-detail-value">@product.Id</dd>
+
+                        <dt class="col-sm-4 product-detail-label">Nombre:</dt>
+                        <dd class="col-sm-8 product-detail-value">@product.Name</dd>
+
+                        <dt class="col-sm-4 product-detail-label">Descripción:</dt>
+                        <dd class="col-sm-8 product-detail-value">@product.Description</dd>
+
+                        <dt class="col-sm-4 product-detail-label">Precio:</dt>
+                        <dd class="col-sm-8 product-detail-value product-price">@product.Price.ToString("C")</dd>
+
+                        <dt class="col-sm-4 product-detail-label">Compañía:</dt>
+                        <dd class="col-sm-8 product-detail-value">
+                            @if (company != null)
+                            {
+                                <a href="/companies/details/@company.Id">@company.Name</a>
+                            }
+                            else
+                            {
+                                <span>Compañía no encontrada (ID: @product.CompanyId)</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" @onclick="() => NavigateToEdit(product.Id)">Editar</button>
+            <button class="btn btn-secondary" @onclick="NavigateToList">Volver a la lista</button>
+            <button class="btn btn-info" @onclick="() => NavigateToCompanyDetails(product.CompanyId)">Ver Compañía</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Product product;
+    private Company company;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            loading = true;
+            
+            // Cargar el producto
+            product = await ProductService.GetProductByIdAsync(Id);
+            
+            if (product != null)
+            {
+                // Cargar la compañía asociada
+                company = await CompanyService.GetCompanyByIdAsync(product.CompanyId);
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudieron cargar los datos: {ex.Message}", NotificationType.Error);
+            product = null;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void NavigateToList()
+    {
+        if (product != null && product.CompanyId > 0)
+        {
+            NavigationManager.NavigateTo($"/companies/{product.CompanyId}/products");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/products");
+        }
+    }
+
+    private void NavigateToEdit(int id)
+    {
+        NavigationManager.NavigateTo($"/products/edit/{id}");
+    }
+
+    private void NavigateToCompanyDetails(int companyId)
+    {
+        NavigationManager.NavigateTo($"/companies/details/{companyId}");
+    }
+}

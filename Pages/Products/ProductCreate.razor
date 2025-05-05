@@ -1,0 +1,159 @@
+﻿@page "/products/create"
+@page "/products/create/{CompanyId:int}"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject IProductService ProductService
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<div class="product-detail-header">
+    <h1>Crear Nuevo Producto</h1>
+</div>
+
+@if (loading)
+{
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Cargando datos...</p>
+    </div>
+}
+else
+{
+    <div class="card product-form">
+        <div class="card-body">
+            <EditForm Model="@product" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <InputText id="name" @bind-Value="product.Name" class="form-control" />
+                    <ValidationMessage For="@(() => product.Name)" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descripción:</label>
+                    <InputTextArea id="description" @bind-Value="product.Description" class="form-control" rows="3" />
+                    <ValidationMessage For="@(() => product.Description)" />
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Precio:</label>
+                    <InputNumber id="price" @bind-Value="product.Price" class="form-control" />
+                    <ValidationMessage For="@(() => product.Price)" />
+                </div>
+
+                @if (!CompanyId.HasValue)
+                {
+                    <div class="form-group">
+                        <label for="companyId">Compañía:</label>
+                        <InputSelect id="companyId" @bind-Value="product.CompanyId" class="form-control">
+                            <option value="0">-- Seleccione una compañía --</option>
+                            @foreach (var company in companies)
+                            {
+                                <option value="@company.Id">@company.Name</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => product.CompanyId)" />
+                    </div>
+                }
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary" disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span>Guardando...</span>
+                        }
+                        else
+                        {
+                            <span>Guardar</span>
+                        }
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="NavigateBack">Cancelar</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? CompanyId { get; set; }
+
+    private Product product = new Product();
+    private IEnumerable<Company> companies = new List<Company>();
+    private bool loading = true;
+    private bool isSaving = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            loading = true;
+            
+            if (CompanyId.HasValue)
+            {
+                product.CompanyId = CompanyId.Value;
+                var company = await CompanyService.GetCompanyByIdAsync(CompanyId.Value);
+                if (company == null)
+                {
+                    NotificationService.ShowNotification("Error", "Compañía no encontrada", NotificationType.Error);
+                    NavigationManager.NavigateTo("/products");
+                    return;
+                }
+            }
+            else
+            {
+                companies = await CompanyService.GetAllCompaniesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"Error al cargar datos: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            isSaving = true;
+            
+            if (product.CompanyId == 0)
+            {
+                NotificationService.ShowNotification("Error", "Debe seleccionar una compañía", NotificationType.Error);
+                return;
+            }
+
+            var createdProduct = await ProductService.CreateProductAsync(product);
+            NotificationService.ShowNotification("Éxito", "Producto creado correctamente", NotificationType.Success);
+            NavigateBack();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo crear el producto: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private void NavigateBack()
+    {
+        if (CompanyId.HasValue)
+        {
+            NavigationManager.NavigateTo($"/companies/{CompanyId.Value}/products");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/products");
+        }
+    }
+}

@@ -42,14 +42,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFuaWVzXENvbXBhbnlMaXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Products/ProductCreate.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdENyZWF0ZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Products/ProductDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdERldGFpbHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Products/ProductEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdEVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Pages/Products/ProductList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdExpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Layout/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-l4riel94hw
-
-[D:/Proyectos programacion/C\#/CompanyProductBlazor/CompanyProductBlazor/Layout/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-98w1d8yln7

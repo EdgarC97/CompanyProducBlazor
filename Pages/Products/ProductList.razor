@@ -1,0 +1,212 @@
+﻿@page "/products"
+@page "/companies/{CompanyId:int}/products"
+@using CompanyProductBlazor.Models
+@using CompanyProductBlazor.Services.Interfaces
+@inject IProductService ProductService
+@inject ICompanyService CompanyService
+@inject INotificationService NotificationService
+@inject NavigationManager NavigationManager
+
+<div class="product-list-header">
+    <h1>@pageTitle</h1>
+    <div class="actions-container">
+        <button class="btn btn-primary" @onclick="NavigateToCreate">Nuevo Producto</button>
+        @if (CompanyId.HasValue)
+        {
+            <button class="btn btn-secondary" @onclick="NavigateToCompanyDetails">Volver a Detalles de Compañía</button>
+        }
+    </div>
+</div>
+
+@if (loading)
+{
+    <div class="spinner-container">
+        <div class="spinner"></div>
+        <p>Cargando productos...</p>
+    </div>
+}
+else if (products == null || !products.Any())
+{
+    <div class="empty-state">
+        <p>No hay productos registrados.</p>
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    @if (!CompanyId.HasValue)
+                    {
+                        <th>Compañía</th>
+                    }
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td class="product-price">@product.Price.ToString("C")</td>
+                        @if (!CompanyId.HasValue)
+                        {
+                            <td>@(product.Company?.Name ?? $"Compañía ID: {product.CompanyId}")</td>
+                        }
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-info" @onclick="() => NavigateToDetails(product.Id)">Detalles</button>
+                                <button class="btn btn-warning" @onclick="() => NavigateToEdit(product.Id)">Editar</button>
+                                <button class="btn btn-danger" @onclick="() => ConfirmDelete(product)">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (showDeleteConfirm)
+{
+    <div class="modal-backdrop show"></div>
+    <div class="modal show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar eliminación</h5>
+                    <button type="button" class="close" @onclick="CancelDelete">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar el producto "@productToDelete?.Name"?</p>
+                    <p class="text-danger">Esta acción no se puede deshacer.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelDelete">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="DeleteProduct">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? CompanyId { get; set; }
+
+    private IEnumerable<Product> products;
+    private Company company;
+    private bool loading = true;
+    private bool showDeleteConfirm = false;
+    private Product productToDelete;
+    private string pageTitle = "Productos";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (CompanyId.HasValue)
+        {
+            try
+            {
+                company = await CompanyService.GetCompanyByIdAsync(CompanyId.Value);
+                pageTitle = $"Productos de {company.Name}";
+            }
+            catch (Exception ex)
+            {
+                NotificationService.ShowNotification("Error", $"No se pudo cargar la compañía: {ex.Message}", NotificationType.Error);
+            }
+        }
+
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        try
+        {
+            loading = true;
+            if (CompanyId.HasValue)
+            {
+                products = await ProductService.GetProductsByCompanyIdAsync(CompanyId.Value);
+            }
+            else
+            {
+                products = await ProductService.GetAllProductsAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudieron cargar los productos: {ex.Message}", NotificationType.Error);
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private void NavigateToCreate()
+    {
+        if (CompanyId.HasValue)
+        {
+            NavigationManager.NavigateTo($"/products/create/{CompanyId.Value}");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/products/create");
+        }
+    }
+
+    private void NavigateToDetails(int id)
+    {
+        NavigationManager.NavigateTo($"/products/details/{id}");
+    }
+
+    private void NavigateToEdit(int id)
+    {
+        NavigationManager.NavigateTo($"/products/edit/{id}");
+    }
+
+    private void NavigateToCompanyDetails()
+    {
+        if (CompanyId.HasValue)
+        {
+            NavigationManager.NavigateTo($"/companies/details/{CompanyId.Value}");
+        }
+    }
+
+    private void ConfirmDelete(Product product)
+    {
+        productToDelete = product;
+        showDeleteConfirm = true;
+    }
+
+    private void CancelDelete()
+    {
+        productToDelete = null;
+        showDeleteConfirm = false;
+    }
+
+    private async Task DeleteProduct()
+    {
+        try
+        {
+            await ProductService.DeleteProductAsync(productToDelete.Id);
+            NotificationService.ShowNotification("Éxito", $"Producto '{productToDelete.Name}' eliminado correctamente", NotificationType.Success);
+            showDeleteConfirm = false;
+            productToDelete = null;
+            await LoadProducts();
+        }
+        catch (Exception ex)
+        {
+            NotificationService.ShowNotification("Error", $"No se pudo eliminar el producto: {ex.Message}", NotificationType.Error);
+        }
+    }
+}
