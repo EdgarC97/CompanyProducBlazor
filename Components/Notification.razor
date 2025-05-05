@@ -1,0 +1,146 @@
+﻿@using CompanyProductBlazor.Services.Interfaces
+@implements IDisposable
+@inject INotificationService NotificationService
+
+@if (isVisible)
+{
+    <div class="notification @GetNotificationClass()" @onclick="CloseNotification">
+        <div class="notification-header">
+            <h3>@title</h3>
+            <button class="close-button" @onclick="CloseNotification">×</button>
+        </div>
+        <div class="notification-body">
+            <p>@message</p>
+        </div>
+    </div>
+}
+
+<style>
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 300px;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .notification-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+
+    .notification-error {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+
+    .notification-info {
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        color: #0c5460;
+    }
+
+    .notification-warning {
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+        color: #856404;
+    }
+
+    .notification-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .notification-header h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
+
+@code {
+    private bool isVisible = false;
+    private string title;
+    private string message;
+    private NotificationType type;
+    private System.Threading.Timer timer;
+
+    protected override void OnInitialized()
+    {
+        NotificationService.OnNotification += ShowNotification;
+    }
+
+    private void ShowNotification(string title, string message, NotificationType type)
+    {
+        this.title = title;
+        this.message = message;
+        this.type = type;
+        isVisible = true;
+
+        // Dispose previous timer if exists
+        timer?.Dispose();
+
+        // Auto-hide notification after 5 seconds
+        timer = new System.Threading.Timer(_ =>
+        {
+            InvokeAsync(() =>
+            {
+                isVisible = false;
+                StateHasChanged();
+            });
+        }, null, 5000, System.Threading.Timeout.Infinite);
+
+        StateHasChanged();
+    }
+
+    private void CloseNotification()
+    {
+        isVisible = false;
+        timer?.Dispose();
+    }
+
+    private string GetNotificationClass()
+    {
+        return type switch
+        {
+            NotificationType.Success => "notification-success",
+            NotificationType.Error => "notification-error",
+            NotificationType.Info => "notification-info",
+            NotificationType.Warning => "notification-warning",
+            _ => "notification-info"
+        };
+    }
+
+    public void Dispose()
+    {
+        NotificationService.OnNotification -= ShowNotification;
+        timer?.Dispose();
+    }
+}
