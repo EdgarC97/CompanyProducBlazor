@@ -135,11 +135,13 @@ else
             loading = true;
             if (CompanyId.HasValue)
             {
-                products = await ProductService.GetProductsByCompanyIdAsync(CompanyId.Value);
+                var result = await ProductService.GetProductsByCompanyIdAsync(CompanyId.Value);
+                products = result.OrderByDescending(p => p.CreatedAt);
             }
             else
             {
-                products = await ProductService.GetAllProductsAsync();
+                var result = await ProductService.GetAllProductsAsync();
+                products = result.OrderByDescending(p => p.CreatedAt);
             }
         }
         catch (Exception ex)

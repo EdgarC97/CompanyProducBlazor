@@ -14,3 +14,15 @@
 /* Importar estilos específicos de páginas */
 @import url('pages/companies.css');
 @import url('pages/products.css');
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        top: 0;
+    }
+
+    to {
+        opacity: 1;
+        top: 20px;
+    }
+}

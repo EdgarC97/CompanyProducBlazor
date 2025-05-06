@@ -4,15 +4,23 @@
 
 @if (showNotification)
 {
-    <div class="notification-container @GetNotificationClass()">
-        <div class="notification-header">
-            <strong>@title</strong>
-            <button type="button" class="close" @onclick="CloseNotification">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="notification-body">
-            @message
+    <div class="modal-backdrop show"></div>
+    <div class="modal show" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content @GetNotificationClass()">
+                <div class="modal-header">
+                    <h5 class="modal-title">@title</h5>
+                    <button type="button" class="close" @onclick="CloseNotification" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@message</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CloseNotification">Aceptar</button>
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -35,13 +43,6 @@
         type = notificationType;
         showNotification = true;
         StateHasChanged();
-
-        // Auto-hide after 5 seconds
-        Task.Delay(5000).ContinueWith(_ =>
-        {
-            CloseNotification();
-            StateHasChanged();
-        });
     }
 
     private void CloseNotification()
@@ -53,11 +54,11 @@
     {
         return type switch
         {
-            NotificationType.Success => "notification-success",
-            NotificationType.Error => "notification-error",
-            NotificationType.Warning => "notification-warning",
-            NotificationType.Info => "notification-info",
-            _ => "notification-info"
+            NotificationType.Success => "border-success",
+            NotificationType.Error => "border-danger",
+            NotificationType.Warning => "border-warning",
+            NotificationType.Info => "border-info",
+            _ => ""
         };
     }
 

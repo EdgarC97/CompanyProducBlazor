@@ -100,7 +100,8 @@ else
         try
         {
             loading = true;
-            companies = await CompanyService.GetAllCompaniesAsync();
+            var result = await CompanyService.GetAllCompaniesAsync();
+            companies = result.OrderByDescending(c => c.CreatedAt);
         }
         catch (Exception ex)
         {
@@ -136,6 +137,10 @@ else
             await CompanyService.DeleteCompanyAsync(companyToDelete.Id);
             NotificationService.ShowNotification("Éxito", $"Compañía '{companyToDelete.Name}' eliminada correctamente", NotificationType.Success);
             await LoadCompanies();
+        }
+        catch (HttpRequestException ex) when (ex.Message.Contains("409"))
+        {
+            NotificationService.ShowNotification("Error", "No se puede eliminar la compañía porque tiene productos asociados. Elimínelos primero.", NotificationType.Error);
         }
         catch (Exception ex)
         {

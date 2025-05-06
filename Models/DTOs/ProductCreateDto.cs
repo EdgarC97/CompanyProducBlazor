@@ -14,11 +14,11 @@ namespace CompanyProductBlazor.Models.DTOs
         public string Description { get; set; }
 
         [Required]
-        [Range(0.01, double.MaxValue)]
+        [Range(0, 999999999)]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(0, int.MaxValue)]
+        [Range(0, 999999999)]
         public int Stock { get; set; }
 
         [Required]

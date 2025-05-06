@@ -12,12 +12,15 @@ namespace CompanyProductBlazor.Models.DTOs
         [StringLength(200)]
         public string Address { get; set; }
 
-        [RegularExpression(@"^\d{0,10}$", ErrorMessage = "El teléfono debe contener solo números (0 a 10 dígitos)")]
+        [Required(ErrorMessage = "El teléfono es obligatorio")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "El teléfono debe tener exactamente 10 dígitos numéricos")]
         public string? Phone { get; set; }
 
+        [Required(ErrorMessage = "El correo electrónico es obligatorio")]
         [EmailAddress(ErrorMessage = "El correo electrónico no es válido")]
         public string? Email { get; set; }
 
+        [Required(ErrorMessage = "El sitio web es obligatorio")]
         public string? WebSite { get; set; }
     }
 }

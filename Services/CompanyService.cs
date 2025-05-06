@@ -41,7 +41,14 @@ namespace CompanyProductBlazor.Services
         public async Task DeleteCompanyAsync(int id)
         {
             var response = await _httpClient.DeleteAsync($"{ApiEndpoint}/{id}");
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                throw new HttpRequestException("La compañía tiene productos asociados y no puede ser eliminada.", null, response.StatusCode);
+            }
+
             response.EnsureSuccessStatusCode();
         }
+
     }
 }
