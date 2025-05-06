@@ -7,10 +7,11 @@ Aplicación web Blazor WebAssembly para la gestión de compañías y productos.
 * [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 * Backend API corriendo localmente (verifica que esté en funcionamiento y toma nota de la URL base y el puerto, como `https://localhost:5041` o similar)
 
-## Estructura del Proyecto
+## 📦 Estructura del Proyecto
 
 * `CompanyProductBlazor` - Proyecto Blazor WebAssembly (Frontend)
 
+```
 CompanyProductBlazor/
 ├── wwwroot/
 │   ├── css/
@@ -62,7 +63,7 @@ CompanyProductBlazor/
 ├── App.razor
 ├── Program.cs
 └── _Imports.razor
-
+```
 ## Configuración del Frontend
 
 1. Abre el archivo `Program.cs` en `CompanyProductBlazor` y verifica que el `HttpClient` apunte a la URL correcta del backend:
@@ -100,3 +101,5 @@ dotnet run
 ---
 
 Disfruta del proyecto 🚀
+
+
